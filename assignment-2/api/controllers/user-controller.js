@@ -37,6 +37,15 @@ _container.post = function(data, callback){
   }
 }
 
+_container.get = function(data, callback) {
+}
+
+_container.put = function(data, callback) {
+}
+
+_container.delete = function(data, callback) {
+}
+
 const userController = function(data, callback) {
   requestHandler.handler(data, _container, callback);
 }

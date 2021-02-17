@@ -19,7 +19,7 @@ _container.post = function(data, callback){
   if(
     validator.isEmail(payload.email) &&
     validator.isNotEmpty(payload.name) &&
-    validator.isNotEmpty(payload.address),
+    validator.isNotEmpty(payload.address) &&
     validator.isNotEmpty(payload.password)
   ) {
     const userModel = new UserModel(payload.email);

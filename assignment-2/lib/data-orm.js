@@ -77,7 +77,7 @@ class DataORM {
    * Delete user data.
    * @param {function} callback
    */
-  delete(callback) {
+  truncate(callback) {
     fs.unlink(this.jsonFile, function(err) {
       callback(err);
     });

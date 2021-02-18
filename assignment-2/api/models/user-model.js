@@ -1,22 +1,21 @@
-var DataORM = require('./../../lib/data-orm');
-var helpers = require('./../../lib/helpers');
-var statusCode = require('./../../lib/status-code');
+const DataORM = require('./../../lib/data-orm');
+const helpers = require('./../../lib/helpers');
+const statusCode = require('./../../lib/status-code');
 
 class UserModel extends DataORM {
+  
   constructor(primaryKey) {
     super('users', primaryKey);
+    this.data = undefined;
   }
 
-  // isExist(callback) {
-  //   return this.exists(callback);
-  // }
-
   get(callback) {
-    this.find(function(err, data) {
+    this.find((err, data) => {
       if(!err && data) {
-        callback(true, data);
+        this.data = data;
+        callback(false, data);
       } else {
-        callback(false);
+        callback(true);
       }
     });
   }
@@ -33,7 +32,7 @@ class UserModel extends DataORM {
 
   save(user, callback) {
     // Generate a hashed password
-    var hashedPassword = helpers.hash(user.password);
+    const hashedPassword = helpers.hash(user.password);
 
     if(hashedPassword) {
       user['hashedPassword'] = hashedPassword;

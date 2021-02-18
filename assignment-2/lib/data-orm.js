@@ -33,7 +33,7 @@ class DataORM {
     fs.readFile(this.jsonFile, 'utf8', function(err, data) {
       if(!err && data) {
         var parsedData = helpers.parseJsonToObject(data);
-        callback(false ,parsedData);
+        callback(false, parsedData);
       } else {
         callback(err, data);
       }

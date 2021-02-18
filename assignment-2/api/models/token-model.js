@@ -36,6 +36,20 @@ class TokenModel extends DataORM {
       }
     });
   }
+
+  /*
+   * Delete token
+   * @param {function} callback
+   */
+  delete(callback) {
+    this.truncate((err) => {
+      if(!err) {
+        callback(false, {});
+      } else {
+        callback(true, helpers.errObject('Could not delete the specified token'));
+      }
+    });
+  }
 }
 
 module.exports = TokenModel;

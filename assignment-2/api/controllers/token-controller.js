@@ -65,6 +65,7 @@ _container.get = function(data, callback) {
   }
 }
 
+// NOT NEEDED YET
 _container.put = function(data, callback) {
   // var id = typeof(data.payload.id) == 'string' && data.payload.id.trim().length == 20 ? data.payload.id.trim() : false;
   // var extend = typeof(data.payload.extend) == 'boolean' && data.payload.extend == true ? true : false;
@@ -97,27 +98,21 @@ _container.put = function(data, callback) {
 }
 
 _container.delete = function(data, callback) {
-  // // Check that id is valid
-  // var id = typeof(data.queryStringObject.id) == 'string' && data.queryStringObject.id.trim().length == 20 ? data.queryStringObject.id.trim() : false;
-  // if(id){
-  //   // Lookup the token
-  //   _data.read('tokens',id,function(err,tokenData){
-  //     if(!err && tokenData){
-  //       // Delete the token
-  //       _data.delete('tokens',id,function(err){
-  //         if(!err){
-  //           callback(200);
-  //         } else {
-  //           callback(500,{'Error' : 'Could not delete the specified token'});
-  //         }
-  //       });
-  //     } else {
-  //       callback(400,{'Error' : 'Could not find the specified token.'});
-  //     }
-  //   });
-  // } else {
-  //   callback(400,{'Error' : 'Missing required field'})
-  // }
+  const validTokenId = helpers.validTokenId(data.queryStringObject.id);
+  if(validTokenId) {
+    const tokenModel = new TokenModel(validTokenId);
+    tokenModel.get((err, data) => {
+      if(!err) {
+        tokenModel.delete((err, data) => {
+          callback(err ? statusCode.SERVER_ERROR : statusCode.success, data);
+        });
+      } else {
+        callback(statusCode.NOT_FOUND, data);
+      }
+    });
+  } else {
+    callback(statusCode.NOT_FOUND, helpers.errObject('Token invalid'))
+  }
 }
 
 _container.verifyToken = function(id, phone, callback) {

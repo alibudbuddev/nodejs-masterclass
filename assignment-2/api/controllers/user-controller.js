@@ -52,8 +52,16 @@ _container.put = function(data, callback) {
   if(validator.isEmail(payload.email)) {
     if(validator.isNotEmpty(payload.name) || validator.isNotEmpty(payload.address) || validator.isNotEmpty(payload.password)) {
       const userModel = new UserModel(payload.email);
-      userModel.update(payload, (err, payload) => {
-        callback(err ? statusCode.SUCCESS : statusCode.SERVER_ERROR, payload);
+      userModel.get((err, userData) => {
+        if(!err) {
+          userData['name'] = payload.name;
+          userData['address'] = payload.address;
+          userModel.update(userData, (err, payload) => {
+            callback(err ? statusCode.SUCCESS : statusCode.SERVER_ERROR, payload);
+          });
+        } else {
+          callback(statusCode.NOT_FOUND, helpers.errObject('User not found'));
+        }
       });
     } else {
       callback(statusCode.NOT_FOUND, helpers.errObject('Missing fields to update'));

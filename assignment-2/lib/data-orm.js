@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var helpers = require('./helpers');
 
 class DataORM {
   baseDir = path.join(__dirname,'/../.data/');
@@ -20,6 +21,28 @@ class DataORM {
         callback(false);
       } else {
         callback(true);
+      }
+    });
+  }
+
+  /*
+   * Find the user data.
+   * @param {function} callback
+   */
+  find(callback) {
+    fs.readFile(this.jsonFile, 'utf8', function(err) {
+      if(err) {
+        callback(false);
+      } else {
+        callback(true);
+      }
+    });
+    fs.readFile(this.jsonFile, 'utf8', function(err, data) {
+      if(!err && data) {
+        var parsedData = helpers.parseJsonToObject(data);
+        callback(false ,parsedData);
+      } else {
+        callback(err, data);
       }
     });
   }

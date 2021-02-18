@@ -11,6 +11,16 @@ class UserModel extends DataORM {
   //   return this.exists(callback);
   // }
 
+  get(callback) {
+    this.find(function(err, data) {
+      if(!err && data) {
+        callback(true, data);
+      } else {
+        callback(false);
+      }
+    });
+  }
+
   notExist(callback) {
     this.exists(function(exists) {
       if(!exists) {

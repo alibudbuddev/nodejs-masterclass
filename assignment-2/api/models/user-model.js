@@ -21,7 +21,7 @@ class UserModel extends DataORM {
   }
 
   notExist(callback) {
-    this.exists(function(exists) {
+    this.exists((exists) => {
       if(!exists) {
         callback(true);
       } else {
@@ -38,7 +38,7 @@ class UserModel extends DataORM {
       user['hashedPassword'] = hashedPassword;
       delete user['password'];
       // Store the user
-      this.create(user, function(err) {
+      this.create(user, (err) => {
         if(!err){
           callback(statusCode.SUCCESS);
         } else {

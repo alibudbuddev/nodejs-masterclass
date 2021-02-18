@@ -13,7 +13,6 @@ const TokenModel = require('./../models/token-model');
 const _container  = {};
 
 _container.post = function(data, callback) {
-  // Check if current token is valid
   if(!data.tokenState.valid) {
     const payload = data.payload;
     const userModel = new UserModel(payload.email);
@@ -48,10 +47,14 @@ _container.post = function(data, callback) {
 
 // @TODO: Delete user's token
 _container.delete = function(data, callback) {
-  // Check if token is valid
-
-  // If token is valid, delete token
-  callback(200, {msg: 'logout route'});
+  if(data.tokenState.valid) {
+    const tokenModel = new TokenModel(data.tokenState.token.id);
+    tokenModel.delete((err, data) => {
+      callback(err ? statusCode.SERVER_ERROR : statusCode.success, data);
+    });
+  } else {
+    callback(statusCode.NOT_FOUND);
+  }
 }
 
 const authController = (data, callback) => {

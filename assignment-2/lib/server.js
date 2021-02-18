@@ -46,15 +46,19 @@ const verifyToken = (headers, callback) => {
       if(!err && tokenData){
         // Check the token if not expired
         if(tokenData.expires > Date.now()){
-          callback({'valid': true});
+          callback(generateTokenState(true, tokenData));
         } else {
-          callback({'valid': false});
+          callback(generateTokenState(false, tokenData));
         }
       } else {
-        callback({'valid': false});
+        callback(generateTokenState(false, tokenData));
       }
     }
   );
+}
+
+const generateTokenState = (valid, token) => {
+  return {'valid': valid, 'token': token};
 }
 
 const getRequestMetaData = function(req, buffer) {

@@ -44,6 +44,62 @@ _container.put = function(data, callback) {
 }
 
 _container.delete = function(data, callback) {
+  const email = data.payload.email;
+  if(validator.isEmail(email)) {
+
+    // Get token from headers
+    var token = typeof(data.headers.token) == 'string' ? data.headers.token : false;
+
+    // // Verify that the given token is valid for the phone number
+    // handlers._tokens.verifyToken(token,phone,function(tokenIsValid){
+    //   if(tokenIsValid){
+    //     // Lookup the user
+    //     _data.read('users',phone,function(err,userData){
+    //       if(!err && userData){
+    //         // Delete the user's data
+    //         _data.delete('users',phone,function(err){
+    //           if(!err){
+    //             // Delete each of the checks associated with the user
+    //             var userChecks = typeof(userData.checks) == 'object' && userData.checks instanceof Array ? userData.checks : [];
+    //             var checksToDelete = userChecks.length;
+    //             if(checksToDelete > 0){
+    //               var checksDeleted = 0;
+    //               var deletionErrors = false;
+    //               // Loop through the checks
+    //               userChecks.forEach(function(checkId){
+    //                 // Delete the check
+    //                 _data.delete('checks',checkId,function(err){
+    //                   if(err){
+    //                     deletionErrors = true;
+    //                   }
+    //                   checksDeleted++;
+    //                   if(checksDeleted == checksToDelete){
+    //                     if(!deletionErrors){
+    //                       callback(200);
+    //                     } else {
+    //                       callback(500,{'Error' : "Errors encountered while attempting to delete all of the user's checks. All checks may not have been deleted from the system successfully."})
+    //                     }
+    //                   }
+    //                 });
+    //               });
+    //             } else {
+    //               callback(200);
+    //             }
+    //           } else {
+    //             callback(500,{'Error' : 'Could not delete the specified user'});
+    //           }
+    //         });
+    //       } else {
+    //         callback(400,{'Error' : 'Could not find the specified user.'});
+    //       }
+    //     });
+    //   } else {
+    //     callback(403,{"Error" : "Missing required token in header, or token is invalid."});
+    //   }
+    // });
+  } else {
+    callback(statusCode.NOT_FOUND,{'error' : 'Missing required field'})
+  }
 }
 
 const userController = function(data, callback) {

@@ -67,7 +67,7 @@ class UserModel extends DataORM {
   delete(callback) {
     this.truncate((err) => {
       if(!err) {
-        callback(false, {});
+        callback(false);
       } else {
         callback(true, helpers.errObject('Could not delete the specified user'));
       }

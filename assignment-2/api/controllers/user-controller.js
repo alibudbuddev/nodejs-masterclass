@@ -8,6 +8,7 @@ const requestHandler = require('./../util/request-handler');
 const validator = require('./../../lib/validator');
 const statusCode = require('./../../lib/status-code');
 const UserModel = require('./../models/user-model');
+const TokenModel = require('./../models/token-model');
 const helpers = require('../../lib/helpers');
 
 // User controller container
@@ -63,61 +64,64 @@ _container.put = function(data, callback) {
 }
 
 _container.delete = function(data, callback) {
+  // Check if token is valid
+  const tokenState = data.tokenState;
+  if(!tokenState.valid) {
+    callback(statusCode.UNAUTHORIZED);
+    return;
+  }
+  
   const email = data.payload.email;
   if(validator.isEmail(email)) {
-
-    // Get token from headers
-    var token = typeof(data.headers.token) == 'string' ? data.headers.token : false;
-
-    // // Verify that the given token is valid for the phone number
-    // handlers._tokens.verifyToken(token,phone,function(tokenIsValid){
-    //   if(tokenIsValid){
-    //     // Lookup the user
-    //     _data.read('users',phone,function(err,userData){
-    //       if(!err && userData){
-    //         // Delete the user's data
-    //         _data.delete('users',phone,function(err){
-    //           if(!err){
-    //             // Delete each of the checks associated with the user
-    //             var userChecks = typeof(userData.checks) == 'object' && userData.checks instanceof Array ? userData.checks : [];
-    //             var checksToDelete = userChecks.length;
-    //             if(checksToDelete > 0){
-    //               var checksDeleted = 0;
-    //               var deletionErrors = false;
-    //               // Loop through the checks
-    //               userChecks.forEach(function(checkId){
-    //                 // Delete the check
-    //                 _data.delete('checks',checkId,function(err){
-    //                   if(err){
-    //                     deletionErrors = true;
-    //                   }
-    //                   checksDeleted++;
-    //                   if(checksDeleted == checksToDelete){
-    //                     if(!deletionErrors){
-    //                       callback(200);
-    //                     } else {
-    //                       callback(500,{'Error' : "Errors encountered while attempting to delete all of the user's checks. All checks may not have been deleted from the system successfully."})
-    //                     }
-    //                   }
-    //                 });
-    //               });
-    //             } else {
-    //               callback(200);
-    //             }
-    //           } else {
-    //             callback(500,{'Error' : 'Could not delete the specified user'});
-    //           }
-    //         });
-    //       } else {
-    //         callback(400,{'Error' : 'Could not find the specified user.'});
-    //       }
-    //     });
-    //   } else {
-    //     callback(403,{"Error" : "Missing required token in header, or token is invalid."});
-    //   }
-    // });
+    // Verify that the given token is valid for the mail
+    if(email === tokenState.token.email) {
+      const userModel = new UserModel(email);
+      // Lookup the user
+      userModel.get((err, userData) => {
+        if(!err && userData){
+          // Delete the user's data
+          userModel.delete((err) => {
+            if(!err){
+              // Delete each of the token associated with the user
+              var userTokens = typeof(userData.tokens) == 'object' && userData.tokens instanceof Array ? userData.tokens : [];
+              var tokensToDelete = userTokens.length;
+              if(tokensToDelete > 0){
+                var tokensDeleted = 0;
+                var deletionErrors = false;
+                // Loop through the checks
+                userTokens.forEach((tokenId) => {
+                  // Delete the check
+                  const tokenModel = new TokenModel(tokenId);
+                  tokenModel.delete((err) => {
+                    if(err){
+                      deletionErrors = true;
+                    }
+                    tokensDeleted++;
+                    if(tokensDeleted == tokensToDelete){
+                      if(!deletionErrors){
+                        callback(statusCode.SUCCESS);
+                      } else {
+                        callback(statusCode.SERVER_ERROR, helpers.errObject(`Errors encountered while attempting to delete all of the user's checks. All checks may not have been deleted from the system successfully.`))
+                      }
+                    }
+                  });
+                });
+              } else {
+                callback(statusCode.SUCCESS);
+              }
+            } else {
+              callback(statusCode.SERVER_ERROR, helpers.errObject('Could not delete the specified user'));
+            }
+          });
+        } else {
+          callback(statusCode.NOT_FOUND, helpers.errObject('Could not find the specified user.'));
+        }
+      });
+    } else {
+      callback(statusCode.UNAUTHORIZED, helpers.errObject('Missing required token in header, or token is invalid.'));
+    }
   } else {
-    callback(statusCode.NOT_FOUND,{'error' : 'Missing required field'})
+    callback(statusCode.NOT_FOUND, helpers.errObject('Missing required fields'))
   }
 }
 

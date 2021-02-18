@@ -66,7 +66,7 @@ _container.delete = function(data, callback) {
   const tokenState = data.tokenState;
   if(tokenState.valid) {
     const tokenModel = new TokenModel(tokenState.token.id);
-    tokenModel.delete((err, data) => {
+    tokenModel.delete((err) => {
       if(!err) {
         const userModel = new UserModel(tokenState.token.email);
         userModel.get((err, userData) => {

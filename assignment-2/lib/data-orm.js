@@ -30,13 +30,6 @@ class DataORM {
    * @param {function} callback
    */
   find(callback) {
-    fs.readFile(this.jsonFile, 'utf8', function(err) {
-      if(err) {
-        callback(false);
-      } else {
-        callback(true);
-      }
-    });
     fs.readFile(this.jsonFile, 'utf8', function(err, data) {
       if(!err && data) {
         var parsedData = helpers.parseJsonToObject(data);

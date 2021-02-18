@@ -51,24 +51,27 @@ class UserModel extends DataORM {
   }
 
   update(user, callback) {
-    const hashedPassword = helpers.hash(user.password);
+    this.edit(user, (err) => {
+      if(!err){
+        callback(statusCode.SUCCESS);
+      } else {
+        callback(statusCode.SERVER_ERROR, {'error' : 'Could not update user'});
+      }
+    });
+  }
 
-    if(hashedPassword) {
-      user['hashedPassword'] = hashedPassword
-      delete user['password'];
-      delete user['email'];
-      console.log(user);
-
-      this.edit(user, (err) => {
-        if(!err){
-          callback(statusCode.SUCCESS);
-        } else {
-          callback(statusCode.SERVER_ERROR, {'error' : 'Could not update user'});
-        }
-      });
-    } else {
-      callback(statusCode.SERVER_ERROR, {'error' : 'Could not hash the user\'s password.'});
-    }
+  /*
+   * Delete user
+   * @param {function} callback
+   */
+  delete(callback) {
+    this.truncate((err) => {
+      if(!err) {
+        callback(false, {});
+      } else {
+        callback(true, helpers.errObject('Could not delete the specified user'));
+      }
+    });
   }
 }
 

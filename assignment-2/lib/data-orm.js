@@ -103,7 +103,7 @@ class DataORM {
               if(!err){
                 fs.close(fileDescriptor, function(err) {
                   if(!err) {
-                    callback(false);
+                    callback(false, helpers.parseJsonToObject(stringData));
                   } else {
                     callback('Error closing existing file');
                   }

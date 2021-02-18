@@ -54,5 +54,14 @@ helpers.createRandomString = (strLength) => {
   }
 };
 
+helpers.validTokenId = (token) => {
+  const validTokenId = typeof(token) == 'string' && token.trim().length == 20 ? token.trim() : false;
+  return validTokenId;
+}
+
+helpers.errObject = (errMsg) => {
+  return {'error' : errMsg};
+}
+
 // Export the module
 module.exports = helpers;

@@ -1,5 +1,5 @@
 const DataORM = require('../../lib/data-orm');
-const statusCode = require('../../lib/status-code');
+const helpers = require('./../../lib/helpers');
 
 class TokenModel extends DataORM {
 
@@ -7,18 +7,32 @@ class TokenModel extends DataORM {
     super('tokens', primaryKey);
     this.data = undefined;
   }
-  
+
+  /*
+   * Get token data
+   * @param {function} callback
+   */
+  get(callback) {
+    this.find((err, data) => {
+      if(!err && data) {
+        this.data = data;
+        callback(false, data);
+      } else {
+        callback(true, helpers.errObject('Could not find the specified token for '+this.primaryKey));
+      }
+    });
+  }
 
   /*
    * Create token
    * @param {function} callback
    */
-  save(tokenObject, callback) {h
+  save(tokenObject, callback) {
     this.create(tokenObject, (err) => {
       if(!err) {
-        callback(statusCode.SUCCESS, tokenObject);
+        callback(false, tokenObject);
       } else {
-        callback(statusCode.SERVER_ERROR, {'error' : 'Could not create the new token'});
+        callback(true, helpers.errObject('Could not create the new token'));
       }
     });
   }

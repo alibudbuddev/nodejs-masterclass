@@ -10,6 +10,7 @@ const statusCode = require('./../../lib/status-code');
 const helpers = require('./../../lib/helpers');
 const TokenModel = require('./../models/token-model');
 const UserModel = require('./../models/user-model');
+const { stat } = require('fs/promises');
 
 // Token controller container
 const _container = {};
@@ -33,8 +34,8 @@ _container.post = (data, callback) => {
           };
 
           // Store the token
-          tokenModel.create(tokenObject, (statusCode, payload) => {
-            callback(statusCode, payload);
+          tokenModel.save(tokenObject, (err, payload) => {
+            callback(err ? statusCode.SERVER_ERROR : statusCode.SUCCESS, payload);
           });
         } else {
           callback(statusCode.NOT_FOUND, {'error' : 'Password did not match the specified user\'s stored password'});
@@ -49,20 +50,19 @@ _container.post = (data, callback) => {
 }
 
 _container.get = function(data, callback) {
-  // // Check that id is valid
-  // var id = typeof(data.queryStringObject.id) == 'string' && data.queryStringObject.id.trim().length == 20 ? data.queryStringObject.id.trim() : false;
-  // if(id){
-  //   // Lookup the token
-  //   _data.read('tokens',id,function(err,tokenData){
-  //     if(!err && tokenData){
-  //       callback(200,tokenData);
-  //     } else {
-  //       callback(404);
-  //     }
-  //   });
-  // } else {
-  //   callback(400,{'Error' : 'Missing required field, or field invalid'})
-  // }
+  const validTokenId = helpers.validTokenId(data.queryStringObject.id);
+  if(validTokenId) {
+    const tokenModel = new TokenModel(validTokenId);
+    tokenModel.get(err => {
+      if(!err) {
+        callback(err ? statusCode.SERVER_ERROR : statusCode.SUCCESS, tokenModel.data);
+      } else {
+        callback(statusCode.NOT_FOUND, helpers.errObject('Could not find the specified user for '+data.payload.email));
+      }
+    });
+  } else {
+    callback(400, helpers.errObject('Token invalid'));
+  }
 }
 
 _container.put = function(data, callback) {

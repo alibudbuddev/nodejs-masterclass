@@ -10,7 +10,6 @@ const statusCode = require('./../../lib/status-code');
 const helpers = require('./../../lib/helpers');
 const TokenModel = require('./../models/token-model');
 const UserModel = require('./../models/user-model');
-const { stat } = require('fs/promises');
 
 // Token controller container
 const _container = {};

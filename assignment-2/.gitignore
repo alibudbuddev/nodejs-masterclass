@@ -1,1 +1,2 @@
-!.data/*.js
+.data/tokens/*.json
+.data/users/*.json

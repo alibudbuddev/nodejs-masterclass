@@ -3,6 +3,7 @@ var cartController = require('./controllers/cart-controller');
 var orderController = require('./controllers/order-controller');
 var productController = require('./controllers/product-controller');
 var tokenController = require('./controllers/token-controller');
+var authController = require('./controllers/auth-controller');
 var defaultController = {};
 
 // Ping handler
@@ -22,7 +23,8 @@ var routes = {
   'cart': cartController,
   'orders': orderController,
   'products': productController,
-  'tokens': tokenController
+  'tokens': tokenController,
+  'auth': authController
 };
 
 module.exports = routes;

@@ -8,11 +8,11 @@ const requestHandler = require('./../util/request-handler');
 const validator = require('./../../lib/validator');
 const statusCode = require('./../../lib/status-code');
 const UserModel = require('./../models/user-model');
+const helpers = require('../../lib/helpers');
 
 // User controller container
 const _container  = {};
 
-// Users - post
 // Required data: name, email, address, password
 _container.post = function(data, callback){
   const payload = data.payload;
@@ -41,6 +41,25 @@ _container.get = function(data, callback) {
 }
 
 _container.put = function(data, callback) {
+  // Check if token is valid
+  if(!data.tokenState.valid) {
+    callback(statusCode.UNAUTHORIZED);
+    return;
+  }
+
+  const payload = data.payload;
+  if(validator.isEmail(payload.email)) {
+    if(validator.isNotEmpty(payload.name) || validator.isNotEmpty(payload.address) || validator.isNotEmpty(payload.password)) {
+      const userModel = new UserModel(payload.email);
+      userModel.update(payload, (err, payload) => {
+        callback(err ? statusCode.SUCCESS : statusCode.SERVER_ERROR, payload);
+      });
+    } else {
+      callback(statusCode.NOT_FOUND, helpers.errObject('Missing fields to update'));
+    }
+  } else {
+    callback(statusCode.NOT_FOUND, helpers.errObject('Missing required fields'));
+  }
 }
 
 _container.delete = function(data, callback) {

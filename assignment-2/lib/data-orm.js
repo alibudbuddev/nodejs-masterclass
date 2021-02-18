@@ -88,7 +88,7 @@ class DataORM {
    * @param {object} data - User updates object.
    * @param {function} callback
    */
-  update(data, callback) {
+  edit(data, callback) {
     // Open the file for writing
     fs.open(this.jsonFile, 'r+', function(err, fileDescriptor) {
       if(!err && fileDescriptor){
@@ -96,7 +96,7 @@ class DataORM {
         var stringData = JSON.stringify(data);
   
         // Truncate the file
-        fs.truncate(fileDescriptor,function(err) {
+        fs.ftruncate(fileDescriptor,function(err) {
           if(!err) {
             // Write to file and close it
             fs.writeFile(fileDescriptor, stringData, function(err) {

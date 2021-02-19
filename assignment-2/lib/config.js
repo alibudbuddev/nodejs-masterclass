@@ -4,7 +4,8 @@ var environments = {};
 environments.local = {
   'httpPort' : 3000,
   'envName' : 'local',
-  'hashingSecret': 'nodejsMasterClass'
+  'hashingSecret': 'nodejsMasterClass',
+  'stripeSecretKey': 'c2tfdGVzdF81MUlNRHVzRWhtSUxCUE1vU1VhQkZETjY0TzRWcHZ1SmxVdWswRXRzWFpockJKRkFRVHRoZXAydmNsc2dQVnhtenJpS0prdFlzYzNIbTdhOUxKZjJvY3l4cDAweExYRkRYSHM6'
 };
 
 var currentEnvironment = typeof(process.env.NODE_ENV) == 'string' ? process.env.NODE_ENV.toLowerCase() : '';

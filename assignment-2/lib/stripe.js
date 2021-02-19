@@ -1,15 +1,14 @@
-var https = require('https');
-var querystring = require('querystring');
-const { callbackify } = require('util');
+const https = require('https');
+const querystring = require('querystring');
+const config = require('./config');
 
 class Stripe {
-  constructor(secretKey) {
-    this.secretKey = secretKey;
+  constructor() {
     this.defaultRequestOptions = {
       'hostname' : 'api.stripe.com',
       'headers' : {
         'Content-Type' : 'application/x-www-form-urlencoded',
-        'Authorization' : `Basic ${secretKey}`    
+        'Authorization' : `Basic ${config.stripeSecretKey}`    
       }
     };
   }
@@ -19,57 +18,42 @@ class Stripe {
     const stringPayload = querystring.stringify({});
 
     // Instantiate the request object
-      const req = this.request('/v1/charges', 'GET', stringPayload, (res) => {
-      console.log(res.statusCode);
-      console.log(res.headers);
-      res.on('data', (body) => {
-        console.log('BODY: ' + body);
-      });
+    const req = this.request('/v1/charges', 'GET', stringPayload, (res) => {
+      this.logPayload(res);
     });
 
-    // Bind to the error event so it doesn't get thrown
-    req.on('error',function(e){
-      console.log(e);
-    });
-
-    // Add the payload
-    req.write(stringPayload);
-
-    // End the request
-    req.end();
+    this.endReq(req);
   }
 
-  charge() {
+  charge(body) {
     // Configure the request payload
-    const stringPayload = querystring.stringify({
-      amount: 100,
-      currency: 'cad',
-      source: 'tok_mastercard',
-      description: 'My First Test Charge'
-    });
+    const stringPayload = querystring.stringify(body);
 
     // Instantiate the request object
     const req = this.request('/v1/charges', 'POST', stringPayload, (res) => {
-      console.log(res.statusCode);
-      console.log(res.headers);
-      res.on('data', (body) => {
-        console.log('BODY: ' + body);
-      });
+      this.logPayload(res);
     });
 
+    // Add the payload
+    req.write(stringPayload);
+    this.endReq(req);
+  }
+
+  logPayload(res) {
+    res.on('data', (body) => {
+      console.log('BODY: ' + body);
+    });
+  }
+
+  endReq(req) {
     // Bind to the error event so it doesn't get thrown
     req.on('error',function(e){
       console.log(e);
     });
 
-    // Add the payload
-    req.write(stringPayload);
-
     // End the request
     req.end();
   }
-
-
 
   request(path, method, stringPayload, callback) {
     let options = this.defaultRequestOptions;
@@ -82,5 +66,5 @@ class Stripe {
   }
 }
 
-const stripe = new Stripe('c2tfdGVzdF81MUlNRHVzRWhtSUxCUE1vU1VhQkZETjY0TzRWcHZ1SmxVdWswRXRzWFpockJKRkFRVHRoZXAydmNsc2dQVnhtenJpS0prdFlzYzNIbTdhOUxKZjJvY3l4cDAweExYRkRYSHM6');
-stripe.authenticate();
+const stripe = new Stripe();
+stripe.charge();

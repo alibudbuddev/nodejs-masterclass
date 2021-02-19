@@ -25,13 +25,15 @@ class Stripe {
     this.endReq(req);
   }
 
-  charge(body) {
+  charge(body, callback) {
     // Configure the request payload
     const stringPayload = querystring.stringify(body);
 
     // Instantiate the request object
     const req = this.request('/v1/charges', 'POST', stringPayload, (res) => {
-      this.logPayload(res);
+      this.handlePayload(res, (payload) => {
+        callback(payload);
+      });
     });
 
     // Add the payload
@@ -39,16 +41,20 @@ class Stripe {
     this.endReq(req);
   }
 
-  logPayload(res) {
-    res.on('data', (body) => {
-      console.log('BODY: ' + body);
+  handlePayload(res, callback) {
+    res.on('data', (data) => {
+      const payload = {
+        statusCode: res.statusCode,
+        payload: JSON.parse(data)
+      };
+      callback(payload);
     });
   }
 
   endReq(req) {
     // Bind to the error event so it doesn't get thrown
-    req.on('error',function(e){
-      console.log(e);
+    req.on('error', (err) => {
+      console.log(`ERROR: ${err}`);
     });
 
     // End the request
@@ -67,4 +73,13 @@ class Stripe {
 }
 
 const stripe = new Stripe();
-stripe.charge();
+
+const body = {
+  amount: 100,
+  currency: 'cad',
+  source: 'tok_amex',
+  description: 'My First Test Charge (created for API docs)',
+};
+stripe.charge(body, (payload) => {
+  console.log(`charge:`, payload);
+});

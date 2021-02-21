@@ -4,6 +4,7 @@ var orderController = require('./controllers/order-controller');
 var productController = require('./controllers/product-controller');
 var tokenController = require('./controllers/token-controller');
 var authController = require('./controllers/auth-controller');
+var checkoutController = require('./controllers/checkout-controller');
 var defaultController = {};
 
 // Ping handler
@@ -24,6 +25,7 @@ var routes = {
   'orders': orderController,
   'products': productController,
   'tokens': tokenController,
+  'checkout': checkoutController,
   'auth': authController
 };
 

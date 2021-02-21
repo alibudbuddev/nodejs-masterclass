@@ -72,14 +72,4 @@ class Stripe {
   }
 }
 
-const stripe = new Stripe();
-
-const body = {
-  amount: 100,
-  currency: 'cad',
-  source: 'tok_amex',
-  description: 'My First Test Charge (created for API docs)',
-};
-stripe.charge(body, (payload) => {
-  console.log(`charge:`, payload);
-});
+module.exports = Stripe;

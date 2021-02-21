@@ -6,7 +6,6 @@
 
 var requestHandler = require('./../util/request-handler');
 const CartModel = require('./../models/cart-model');
-const { type } = require('os');
 const statusCode = require('../../lib/status-code');
 const helpers = require('../../lib/helpers');
 

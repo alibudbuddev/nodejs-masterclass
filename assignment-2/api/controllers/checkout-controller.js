@@ -28,48 +28,43 @@ _container.post = function(data, callback){
     if(err) {
       callback(statusCode.NOT_FOUND, helpers.errObject(`There's no order for order-id: ${data.payload.orderId}`));
     } else {
-      if(!data.payload.amount) {
-        callback(statusCode.NOT_FOUND, helpers.errObject('Amount must have a value'));
-      } else {
-        const body = {
-          amount: data.payload.amount,
-          source: 'tok_visa',
-          currency: 'usd',
-          description: `Order ID: ${orderDetailsPayload.id}`,
-        };
-  
-        stripe.charge(body, stripePayload => {
-          // If payment is paid, update order record.
-          if(stripePayload.statusCode == statusCode.SUCCESS) {
-            orderDetailsPayload['isPaid'] = true;
-            orderDetailsPayload['paymentId'] = stripePayload.payload.id;
-            orderModel.update(orderDetailsPayload, (err, payload) => {
-              if(err) {
-                console.error(err, payload);
-              } else {
-                // Email the receipt to the user only if order update is successful
-                console.log(`Thanks you! Your order with the amount of ${orderModel.data.total} has been placed.`);
-                const emailData = {
-                  from: 'test@nodejsmasterclass.com',
-                  to: tokenState.token.email,
-                  subject: `Purchase receipt #${stripePayload.payload.id}`,
-                  text: `Thanks you! Your order with the amount of ${orderModel.data.total} has been placed.`
-                };
-                mailgun.send(emailData, (err) => {
-                  if(err) {
-                    console.log(`Receipt is not sent to ${tokenState.token.email}`);
-                  }
-                });
-              }
+      const body = {
+        amount: parseInt(`${orderModel.data.total}00`),
+        source: 'tok_visa',
+        currency: 'usd',
+        description: `Order ID: ${orderDetailsPayload.id}`,
+      };
 
-              // Callback to client whenever the order us get updated.
-              callback(stripePayload.statusCode);
-            });
-          } else {
-            callback(stripePayload.statusCode, stripePayload.payload);
-          }
-        });
-      }
+      stripe.charge(body, stripePayload => {
+        // If payment is paid, update order record.
+        if(stripePayload.statusCode == statusCode.SUCCESS) {
+          orderDetailsPayload['isPaid'] = true;
+          orderDetailsPayload['paymentId'] = stripePayload.payload.id;
+          orderModel.update(orderDetailsPayload, (err, payload) => {
+            if(err) {
+              console.error(err, payload);
+            } else {
+              // Email the receipt to the user only if order update is successful
+              const emailData = {
+                from: 'test@nodejsmasterclass.com',
+                to: tokenState.token.email,
+                subject: `Purchase receipt #${stripePayload.payload.id}`,
+                text: `Thanks you! Your order with the amount of ${orderModel.data.total} has been placed.`
+              };
+              mailgun.send(emailData, (err) => {
+                if(err) {
+                  console.log(`Receipt is not sent to ${tokenState.token.email}`);
+                }
+              });
+            }
+
+            // Callback to client whenever the order us get updated.
+            callback(stripePayload.statusCode);
+          });
+        } else {
+          callback(stripePayload.statusCode, stripePayload.payload);
+        }
+      });
     }
   });
 }

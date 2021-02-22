@@ -93,7 +93,7 @@ class OrderModel extends DataORM {
 
   generateTotal() {
     let total = 0;
-    const items = data.items;
+    const items = this.data.items;
     const length = items.length;
     for (let i = 0; i < length; i++) {
       total += items[i]['price'];

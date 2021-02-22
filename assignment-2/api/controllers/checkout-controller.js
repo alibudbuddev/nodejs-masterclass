@@ -13,6 +13,7 @@ const Mailgun = require('./../../lib/mailgun');
 const stripe = new Stripe();
 const mailgun = new Mailgun();
 
+// Checkout controller container
 var _container = {};
 
 _container.post = function(data, callback){

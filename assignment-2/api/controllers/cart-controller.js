@@ -12,7 +12,6 @@ const helpers = require('../../lib/helpers');
 // Cart controller container
 var _container  = {};
 
-// Required data: cart object
 _container.put = function(data, callback){
   // Check if token is valid
   const tokenState = data.tokenState;

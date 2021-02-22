@@ -9,7 +9,7 @@ class TokenModel extends DataORM {
   }
 
   /*
-   * Get token data
+   * Get model data
    * @param {function} callback
    */
   get(callback) {
@@ -24,7 +24,8 @@ class TokenModel extends DataORM {
   }
 
   /*
-   * Create token
+   * Create model data
+   * @param {object} cartObject - JSON data
    * @param {function} callback
    */
   save(tokenObject, callback) {
@@ -38,7 +39,7 @@ class TokenModel extends DataORM {
   }
 
   /*
-   * Delete token
+   * Delete model data
    * @param {function} callback
    */
   delete(callback) {

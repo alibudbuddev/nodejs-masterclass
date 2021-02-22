@@ -13,9 +13,6 @@ const helpers = require('../../lib/helpers');
 // Order controller container
 var _container = {};
 
-// Users - post
-// Required data: firstName, lastName, phone, password, tosAgreement
-// Optional data: none
 _container.post = function(data, callback){
   // Check if token is valid
   const tokenState = data.tokenState;

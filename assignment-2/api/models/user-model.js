@@ -9,6 +9,10 @@ class UserModel extends DataORM {
     this.data = undefined;
   }
 
+  /*
+   * Get model data
+   * @param {function} callback
+   */
   get(callback) {
     this.find((err, data) => {
       if(!err && data) {
@@ -20,6 +24,10 @@ class UserModel extends DataORM {
     });
   }
 
+  /*
+   * Check model if exist
+   * @param {function} callback
+   */
   notExist(callback) {
     this.exists((exists) => {
       if(!exists) {
@@ -30,6 +38,11 @@ class UserModel extends DataORM {
     });
   }
 
+  /*
+   * Create model data
+   * @param {object} cartObject - JSON data
+   * @param {function} callback
+   */
   save(user, callback) {
     // Generate a hashed password
     const hashedPassword = helpers.hash(user.password);
@@ -50,6 +63,11 @@ class UserModel extends DataORM {
     }
   }
 
+  /*
+   * Update model data
+   * @param {object} user - JSON data
+   * @param {function} callback
+   */
   update(user, callback) {
     this.edit(user, (err) => {
       if(!err){

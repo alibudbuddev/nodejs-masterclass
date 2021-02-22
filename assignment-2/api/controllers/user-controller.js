@@ -14,7 +14,6 @@ const helpers = require('../../lib/helpers');
 // User controller container
 const _container  = {};
 
-// Required data: name, email, address, password
 _container.post = function(data, callback){
   const payload = data.payload;
   if(

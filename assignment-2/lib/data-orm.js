@@ -12,7 +12,7 @@ class DataORM {
   }
 
   /*
-   * Check if user data exists.
+   * Check if file exists.
    * @param {function} callback
    */
   exists(callback) {
@@ -26,7 +26,7 @@ class DataORM {
   }
 
   /*
-   * Find the user data.
+   * Find file data.
    * @param {function} callback
    */
   find(callback) {
@@ -41,8 +41,8 @@ class DataORM {
   }
 
   /*
-   * Create a new user data.
-   * @param {object} data - User object.
+   * Create a file.
+   * @param {object} data - JSON data
    * @param {function} callback
    */
   create(data, callback) {
@@ -74,7 +74,7 @@ class DataORM {
   };
 
   /*
-   * Delete user data.
+   * Delete file.
    * @param {function} callback
    */
   truncate(callback) {
@@ -84,8 +84,8 @@ class DataORM {
   };
 
   /*
-   * Update user data.
-   * @param {object} data - User updates object.
+   * Update file.
+   * @param {object} data - JSON data
    * @param {function} callback
    */
   edit(data, callback) {

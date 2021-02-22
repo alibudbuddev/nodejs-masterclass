@@ -9,7 +9,7 @@ class CartModel extends DataORM {
   }
 
   /*
-   * Get token data
+   * Get model data
    * @param {function} callback
    */
   get(callback) {
@@ -24,7 +24,7 @@ class CartModel extends DataORM {
   }
 
   /*
-   * Create cart
+   * Create/Update model data
    * @param {function} callback
    */
   createOrUpdate(cartObj, callback) {
@@ -43,7 +43,8 @@ class CartModel extends DataORM {
   }
 
   /*
-   * Create cart
+   * Update model data
+   * @param {object} user - JSON data
    * @param {function} callback
    */
   update(user, callback) {
@@ -57,7 +58,8 @@ class CartModel extends DataORM {
   }
 
   /*
-   * Create cart
+   * Create model data
+   * @param {object} cartObject - JSON data
    * @param {function} callback
    */
   save(cartObject, callback) {
@@ -71,7 +73,7 @@ class CartModel extends DataORM {
   }
 
   /*
-   * Delete cart
+   * Delete model data
    * @param {function} callback
    */
   delete(callback) {

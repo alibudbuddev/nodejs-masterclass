@@ -14,7 +14,6 @@ const UserModel = require('./../models/user-model');
 // Token controller container
 const _container = {};
 
-// Required data: email, password
 _container.post = (data, callback) => {
   const payload = data.payload;
   if(validator.isNotEmpty(payload.password) && validator.isEmail(payload.email)) {

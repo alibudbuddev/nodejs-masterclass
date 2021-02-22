@@ -9,7 +9,7 @@ class OrderModel extends DataORM {
   }
 
   /*
-   * Get token data
+   * Get model data
    * @param {function} callback
    */
   get(callback) {
@@ -24,7 +24,7 @@ class OrderModel extends DataORM {
   }
 
   /*
-   * Create order
+   * Create/Update model data
    * @param {function} callback
    */
   createOrUpdate(orderObj, callback) {
@@ -43,7 +43,8 @@ class OrderModel extends DataORM {
   }
 
   /*
-   * Create order
+   * Update model data
+   * @param {object} user - JSON data
    * @param {function} callback
    */
   update(order, callback) {
@@ -58,7 +59,8 @@ class OrderModel extends DataORM {
   }
 
   /*
-   * Create order
+   * Create model data
+   * @param {object} cartObject - JSON data
    * @param {function} callback
    */
   save(orderObject, callback) {
@@ -73,7 +75,7 @@ class OrderModel extends DataORM {
   }
 
   /*
-   * Delete order
+   * Delete model data
    * @param {function} callback
    */
   delete(callback) {
@@ -86,11 +88,18 @@ class OrderModel extends DataORM {
     });
   }
 
+  /*
+   * Updates the data property
+   * @param {object} data - JSON data
+   */
   updateData(data) {
     this.data = data;
     this.data['total'] = this.generateTotal();
   }
 
+  /*
+   * Generate total order based on items
+   */
   generateTotal() {
     let total = 0;
     const items = this.data.items;

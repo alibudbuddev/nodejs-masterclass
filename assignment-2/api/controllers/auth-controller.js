@@ -9,7 +9,7 @@ const helpers = require('./../../lib/helpers');
 const UserModel = require('./../models/user-model');
 const TokenModel = require('./../models/token-model');
 
-// Cart controller container
+// Auth controller container
 const _container  = {};
 
 const updateUserTokens = (userModel, userData, callback) => {
@@ -61,7 +61,6 @@ _container.post = function(data, callback) {
   }
 }
 
-// @TODO: Delete user's token
 _container.delete = function(data, callback) {
   const tokenState = data.tokenState;
   if(tokenState.valid) {
@@ -99,7 +98,6 @@ _container.delete = function(data, callback) {
     callback(statusCode.NOT_FOUND);
   }
 }
-
 
 const authController = (data, callback) => {
   requestHandler.handler(data, _container, callback);

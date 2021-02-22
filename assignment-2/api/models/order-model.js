@@ -15,7 +15,7 @@ class OrderModel extends DataORM {
   get(callback) {
     this.find((err, data) => {
       if(!err && data) {
-        this.data = data;
+        this.updateData(data);
         callback(false, data);
       } else {
         callback(true, helpers.errObject('Could not find the specified order for '+this.primaryKey));
@@ -48,6 +48,7 @@ class OrderModel extends DataORM {
    */
   update(order, callback) {
     this.edit(order, (err, data) => {
+      this.updateData(data);
       if(!err){
         callback(false, data);
       } else {
@@ -83,6 +84,22 @@ class OrderModel extends DataORM {
         callback(true, helpers.errObject('Could not delete the specified token'));
       }
     });
+  }
+
+  updateData(data) {
+    this.data = data;
+    this.data['total'] = this.generateTotal();
+  }
+
+  generateTotal() {
+    let total = 0;
+    const items = data.items;
+    const length = items.length;
+    for (let i = 0; i < length; i++) {
+      total += items[i]['price'];
+    }
+
+    return total;
   }
 }
 

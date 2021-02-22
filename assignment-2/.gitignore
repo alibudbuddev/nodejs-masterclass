@@ -1,2 +1,4 @@
 .data/tokens/*.json
 .data/users/*.json
+.data/cart/*.json
+.data/orders/*.json

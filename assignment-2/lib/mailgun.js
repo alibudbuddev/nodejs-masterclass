@@ -3,7 +3,7 @@ const querystring = require('querystring');
 const config = require('./config');
 const statusCode = require('./status-code');
 
-class MailGun {
+class Mailgun {
   send(body, callback) {
     // Configure the request payload
     const stringPayload = querystring.stringify(body);
@@ -45,4 +45,4 @@ class MailGun {
   }
 }
 
-module.exports = MailGun;
+module.exports = Mailgun;

@@ -8,7 +8,7 @@ var checkoutController = require('./controllers/checkout-controller');
 
 // View Controllers
 // var viewAccountConroller = require('./../views/view-account-controller');
-// var viewAuthConroller = require('./../views/view-auth-controller');
+var viewAuthConroller = require('./../views/view-auth-controller');
 // var viewCartConroller = require('./../views/view-cart-controller');
 // var viewOrderConroller = require('./../views/view-order-controller');
 // var viewCheckoutConroller = require('./../views/view-checkout-controller');
@@ -54,13 +54,13 @@ defaultController.notFound = function(data, callback) {
 };
 
 var routes = {
-  // // Views routes
-  // '' : handlers.index,
+  // Views routes
+  '' : viewAuthConroller.get,
+  'login': viewAuthConroller.get,
+  'logout': viewAuthConroller.delete,
   // 'account/create': viewAccountConroller.create,
   // 'account/edit': viewAccountConroller.edit,
   // 'account/deleted': viewAccountConroller.deleted,
-  // 'login': viewAuthConroller.login,
-  // 'logout': viewAuthConroller.logout,
   // 'cart': viewCartConroller,
   // 'order': viewOrderConroller,
   // 'checkout': viewCheckoutConroller,

@@ -5,6 +5,7 @@ var productController = require('./controllers/product-controller');
 var tokenController = require('./controllers/token-controller');
 var authController = require('./controllers/auth-controller');
 var checkoutController = require('./controllers/checkout-controller');
+const { handler } = require('./util/request-handler');
 var defaultController = {};
 
 // Ping handler
@@ -18,15 +19,16 @@ defaultController.notFound = function(data, callback) {
 };
 
 var routes = {
+  '': '',
   'ping' : defaultController.ping,
   'not-found': defaultController.notFound,
-  'users': userController,
-  'cart': cartController,
-  'orders': orderController,
-  'products': productController,
-  'tokens': tokenController,
-  'checkout': checkoutController,
-  'auth': authController
+  'api/users': userController,
+  'api/cart': cartController,
+  'api/orders': orderController,
+  'api/products': productController,
+  'api/tokens': tokenController,
+  'api/checkout': checkoutController,
+  'api/auth': authController
 };
 
 module.exports = routes;

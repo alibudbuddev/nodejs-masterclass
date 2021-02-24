@@ -18,11 +18,11 @@
 
             // Create image node
             const imageNode = document.createElement('img');
-            imageNode.src = item['product-image-url'];
+            imageNode.src = `/public/images/pizza${item.id}.jpeg`;
             itemNode.appendChild(imageNode);
 
             // Creat span node for title
-            const textnode = document.createTextNode(item['product-name']);
+            const textnode = document.createTextNode(`${item.name} - $${item.price}`);
             const titleHeadNode = document.createElement('h1');
             titleHeadNode.appendChild(textnode);
             itemNode.appendChild(titleHeadNode);

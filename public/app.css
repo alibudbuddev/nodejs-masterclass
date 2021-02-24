@@ -305,8 +305,13 @@ td a, td a:hover, td a:active{
   margin: 10px;
 }
 
+#product-grid-list .grid-list-item img {
+  max-height: 200px;
+}
+
 #product-grid-list .grid-list-item h1 {
   font-size: .85rem;
+  margin: 10px 0;
 }
 
 .cart-alert-header {

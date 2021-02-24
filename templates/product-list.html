@@ -8,28 +8,47 @@
 <script type="text/javascript" charset="utf-8" src="/public/scripts/product.js"></script>
 <script>
   window.addEventListener('load', (e) => {
-    NJSMC_PRODUCT.get((products) => {
-      products.forEach(item => {
-        console.log(item);
+    const PRODUCT_VIEW = {
+      init: () => {
+        NJSMC_PRODUCT.get((products) => {
+          products.forEach(item => {
+            // Create item node
+            const itemNode = document.createElement('a');
+            itemNode.className = 'grid-list-item';
 
-        // Create item node
-        const itemNode = document.createElement('div');
-        itemNode.className = 'grid-list-item';
+            // Create image node
+            const imageNode = document.createElement('img');
+            imageNode.src = item['product-image-url'];
+            itemNode.appendChild(imageNode);
 
-        // Create image node
-        const imageNode = document.createElement('img');
-        imageNode.src = item['product-image-url'];
-        itemNode.appendChild(imageNode);
+            // Creat span node for title
+            const textnode = document.createTextNode(item['product-name']);
+            const titleHeadNode = document.createElement('h1');
+            titleHeadNode.appendChild(textnode);
+            itemNode.appendChild(titleHeadNode);
 
-        // Creat span node for title
-        const textnode = document.createTextNode(item['product-name']);
-        const titleHeadNode = document.createElement('h1');
-        titleHeadNode.appendChild(textnode);
-        itemNode.appendChild(titleHeadNode);
-        
+            // Append add-to-cart button
+            const addToCartNode = document.createElement('button');
+            addToCartNode.className = 'cta green';
+            const addToCartTextNode = document.createTextNode('Add to cart')
+            addToCartNode.appendChild(addToCartTextNode);
+            itemNode.appendChild(addToCartNode);
 
-        document.getElementById('product-grid-list').appendChild(itemNode);
-      });
-    });
+            // Add evenet listener to this add to cart
+            addToCartNode.addEventListener('click', (e) => {
+              PRODUCT_VIEW.onAddToCartClick(item);
+            });
+            
+            document.getElementById('product-grid-list').appendChild(itemNode);
+          });
+        });
+      },
+
+      onAddToCartClick: (product) => {
+        console.log(product);
+      }
+    }
+
+    PRODUCT_VIEW.init();
   });
 </script>

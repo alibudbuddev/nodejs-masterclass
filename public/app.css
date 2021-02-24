@@ -308,3 +308,21 @@ td a, td a:hover, td a:active{
 #product-grid-list .grid-list-item h1 {
   font-size: .85rem;
 }
+
+.cart-alert-header {
+  background: #217844;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  height: 55px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-alert-header a,
+.cart-alert-header span {
+  font-size: 20px;
+  color: white;
+}

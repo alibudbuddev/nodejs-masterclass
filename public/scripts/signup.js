@@ -66,7 +66,7 @@ const NJSMC_SIGNUP = {
       } else {
         // If successful, set the token and redirect the user
         app.setSessionToken(newResponsePayload);
-        window.location = '/checks/all';
+        window.location = '/';
       }
     });
   }

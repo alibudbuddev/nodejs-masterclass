@@ -42,7 +42,7 @@ const NJSMC_LOGIN = {
           } else {
             // If successful, send to form response processor
             app.setSessionToken(payload);
-            window.location = '/checks/all';
+            window.location = '/';
           }
 
         });

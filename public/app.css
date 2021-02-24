@@ -291,3 +291,20 @@ td a, td a:hover, td a:active{
   margin-top: 40px;
   display: none;
 }
+
+#product-grid-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#product-grid-list .grid-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px;
+}
+
+#product-grid-list .grid-list-item h1 {
+  font-size: .85rem;
+}

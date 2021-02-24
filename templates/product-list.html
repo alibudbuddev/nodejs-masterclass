@@ -1,9 +1,35 @@
-<h1>product-list</h1>
+<h1>Products</h1>
+
+<div class="container">
+  <div id="product-grid-list" class="grid-list">
+  </div>
+</div>
 
 <script type="text/javascript" charset="utf-8" src="/public/scripts/product.js"></script>
-
 <script>
   window.addEventListener('load', (e) => {
-    NJSMC_PRODUCT.get();
+    NJSMC_PRODUCT.get((products) => {
+      products.forEach(item => {
+        console.log(item);
+
+        // Create item node
+        const itemNode = document.createElement('div');
+        itemNode.className = 'grid-list-item';
+
+        // Create image node
+        const imageNode = document.createElement('img');
+        imageNode.src = item['product-image-url'];
+        itemNode.appendChild(imageNode);
+
+        // Creat span node for title
+        const textnode = document.createTextNode(item['product-name']);
+        const titleHeadNode = document.createElement('h1');
+        titleHeadNode.appendChild(textnode);
+        itemNode.appendChild(titleHeadNode);
+        
+
+        document.getElementById('product-grid-list').appendChild(itemNode);
+      });
+    });
   });
 </script>

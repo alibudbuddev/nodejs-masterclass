@@ -99,7 +99,6 @@
                 }
               } else {
                 // If successful, send to form response processor
-                NJSMC_TOKENS.setSessionToken(responsePayload);
                 window.location = `/orders?id=${responsePayload.id}`;
               }
             });

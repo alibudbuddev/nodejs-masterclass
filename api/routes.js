@@ -8,7 +8,6 @@ const checkoutController = require('./controllers/checkout-controller');
 
 // View Controllers
 const viewConroller = require('./../views/view-controller');
-const viewAccountConroller = require('./../views/view-account-controller');
 const viewAuthConroller = require('./../views/view-auth-controller');
 const viewCheckoutConroller = require('../views/view-checkout-controller');
 const viewOrderConroller = require('./../views/view-order-controller');
@@ -20,8 +19,6 @@ const routes = {
   'account/login': viewAuthConroller.get,
   'account/logout': viewAuthConroller.delete,
   'account/create': viewAuthConroller.create,
-  'account/edit': viewAccountConroller.edit,
-  // 'account/deleted': viewAccountConroller.deleted,
   'orders': viewOrderConroller.get,
   'products': viewProductConroller.get,
   'checkout': viewCheckoutConroller.get,

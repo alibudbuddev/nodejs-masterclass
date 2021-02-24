@@ -30,21 +30,21 @@ const NJSMC_SIGNUP = {
             }
           } else {
             // If successful, send to form response processor
-            NJSMC_SIGNUP.formResponseProcessor(payload);
+            NJSMC_SIGNUP.formResponseProcessor(payload, formId);
           }
         });
       });
     }
   },
 
-  formResponseProcessor: (payload) => {
+  formResponseProcessor: (payload, formId) => {
     // Take the phone and password, and use it to log the user in
     var newPayload = {
       'email' : payload.email,
       'password' : payload.password
     };
 
-    NJSMC_HTTP.request(undefined, 'api/auth', 'POST', undefined, newPayload, (newStatusCode,newResponsePayload) => {
+    NJSMC_HTTP.request(undefined, '/api/auth', 'POST', undefined, newPayload, (newStatusCode,newResponsePayload) => {
       // Display an error on the form if needed
       if(newStatusCode !== 200){
 

@@ -41,7 +41,7 @@ _container.get = (data, callback) => {
 
   const cartModel = new CartModel(tokenState.token.email);
   cartModel.get((err, payload) => {
-    callback(err ? statusCode.SERVER_ERROR : statusCode.SUCCESS, payload);
+    callback(statusCode.SUCCESS, err ? [] : payload);
   });
 }
 

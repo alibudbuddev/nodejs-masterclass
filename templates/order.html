@@ -1,33 +1,62 @@
-<h1>Orders</h1>
+<h1>Order ID: <span id="js-order-id"></span></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Order ID</th>
-      <th></th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Qty</th>
     </tr>
   </thead>
 
   <tbody id="js-tbody"></tbody>
 </table>
+
+<hr>
+<h2>
+  Paid: <span id="js-paid"></span> <br />
+  Total: <span id="js-total"></span> <br />
+  Receipt No: <span id="js-receipt"></span> <br />
+</h2>
 <script>
   window.addEventListener('load', (e) => {
     const CHECKOUT = {
       init: () => {
-        NJSMC_HTTP.request(undefined, '/api/orders', 'GET', {}, {}, (statusCode, responsePayload) => {
-          if(statusCode == 200 && typeof(responsePayload) == 'object') {
-            let html = '';
-            responsePayload.items.forEach(item => {
-              html += `
-                <tr>
-                  <td>1</td>
-                  <td class="text-center">1</td>
-                </tr>
-              `;
-            });
-            document.getElementById('js-tbody').innerHTML = html;
-          }
-        });
+        const id = typeof(window.location.href.split('=')[1]) == 'string' && window.location.href.split('=')[1].length > 0 ? window.location.href.split('=')[1] : false;
+        if(id) {
+          const queryStringObject = {
+            'id' : id
+          };
+          NJSMC_HTTP.request(undefined, '/api/orders', 'GET', queryStringObject, {}, (statusCode, responsePayload) => {
+            if(statusCode == 200 && typeof(responsePayload) == 'object') {
+              let html = '';
+              responsePayload.items.forEach(item => {
+                html += `
+                  <tr>
+                    <td>${item.name}</td>
+                    <td class="text-center">${item.price}</td>
+                    <td class="text-center">1</td>
+                  </tr>
+                `;
+              });
+              document.getElementById('js-tbody').innerHTML = html;
+
+              const orderIdEl = document.getElementById('js-order-id');
+              orderIdEl.innerHTML = id;
+
+              const paidEl = document.getElementById('js-paid');
+              paidEl.innerHTML = responsePayload.isPaid ? 'Yes' : 'Not yet';
+
+              const totalEl = document.getElementById('js-total');
+              totalEl.innerHTML = responsePayload.total;
+
+              const receiptEl = document.getElementById('js-receipt');
+              receiptEl.innerHTML = responsePayload.paymentId;
+            }
+          });
+        } else {
+          window.location = '/';
+        }
       }
     }
 

@@ -154,10 +154,6 @@ _container.post = function(data, callback){
   });
 }
 
-_container._processPayment = (data, callback) => {
-
-}
-
 var checkoutController = function(data, callback) {
   requestHandler.handler(data, _container, callback);
 }

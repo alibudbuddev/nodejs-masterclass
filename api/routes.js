@@ -17,9 +17,9 @@ const viewAuthConroller = require('./../views/view-auth-controller');
 const routes = {
   // Views routes
   '' : viewAuthConroller.get,
-  'login': viewAuthConroller.get,
-  'logout': viewAuthConroller.delete,
-  // 'account/create': viewAccountConroller.create,
+  'account/login': viewAuthConroller.get,
+  'account/logout': viewAuthConroller.delete,
+  'account/create': viewAuthConroller.create,
   // 'account/edit': viewAccountConroller.edit,
   // 'account/deleted': viewAccountConroller.deleted,
   // 'cart': viewCartConroller,

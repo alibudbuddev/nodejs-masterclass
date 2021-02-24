@@ -41,7 +41,7 @@ const NJSMC_LOGIN = {
             }
           } else {
             // If successful, send to form response processor
-            app.setSessionToken(payload);
+            NJSMC_TOKENS.setSessionToken(responsePayload);
             window.location = '/';
           }
 

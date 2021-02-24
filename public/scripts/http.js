@@ -64,5 +64,3 @@ const NJSMC_HTTP = {
     xhr.send(payloadString);
   }
 };
-
-app['NJSMC_HTTP'] = NJSMC_HTTP;

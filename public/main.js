@@ -1,28 +1,17 @@
-const app = {};
+// Call the init processes after the window loads
+window.onload = () => {
+  // Bind logout logout button
+  // app.bindLogoutButton();
 
-// Config
-app.config = {
-  'sessionToken' : false
-};
+  // Get the token from localstorage
+  NJSMC_TOKENS.getSessionToken();
 
-// Set (or remove) the loggedIn class from the body
-app.setLoggedInClass = function(add){
-  var target = document.querySelector("body");
-  if(add){
-    target.classList.add('loggedIn');
-  } else {
-    target.classList.remove('loggedIn');
-  }
-};
+  // Check if user is authenticated
+  NJSMC_AUTH.check();
 
-// Set the session token in the app.config object as well as localstorage
-app.setSessionToken = function(token){
-  app.config.sessionToken = token;
-  var tokenString = JSON.stringify(token);
-  localStorage.setItem('token',tokenString);
-  if(typeof(token) == 'object'){
-    app.setLoggedInClass(true);
-  } else {
-    app.setLoggedInClass(false);
-  }
+  // Renew token
+  // app.tokenRenewalLoop();
+
+  // Load data on page
+  // app.loadDataOnPage();
 };

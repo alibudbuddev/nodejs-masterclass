@@ -65,7 +65,7 @@ const NJSMC_SIGNUP = {
 
       } else {
         // If successful, set the token and redirect the user
-        app.setSessionToken(newResponsePayload);
+        NJSMC_TOKENS.setSessionToken(newResponsePayload);
         window.location = '/';
       }
     });

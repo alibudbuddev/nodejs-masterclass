@@ -44,7 +44,6 @@ _container.get = function(data, callback) {
   } else {
     callback(statusCode.UNAUTHORIZED);
   }
-  
 }
 
 _container.put = function(data, callback) {

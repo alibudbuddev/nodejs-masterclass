@@ -38,6 +38,13 @@ _container.post = function(data, callback){
 }
 
 _container.get = function(data, callback) {
+  // Check if token is valid
+  if(data.tokenState.valid) {
+    callback(statusCode.SUCCESS);
+  } else {
+    callback(statusCode.UNAUTHORIZED);
+  }
+  
 }
 
 _container.put = function(data, callback) {

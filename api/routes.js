@@ -8,10 +8,11 @@ const checkoutController = require('./controllers/checkout-controller');
 
 // View Controllers
 const viewConroller = require('./../views/view-controller');
-// const viewAccountConroller = require('./../views/view-account-controller');
+const viewAccountConroller = require('./../views/view-account-controller');
 const viewAuthConroller = require('./../views/view-auth-controller');
-// const viewCartConroller = require('./../views/view-cart-controller');
-// const viewOrderConroller = require('./../views/view-order-controller');
+const viewCartConroller = require('./../views/view-cart-controller');
+const viewOrderConroller = require('./../views/view-order-controller');
+const viewProductConroller = require('./../views/view-product-controller');
 // const viewCheckoutConroller = require('./../views/view-checkout-controller');
 
 const routes = {
@@ -20,10 +21,11 @@ const routes = {
   'account/login': viewAuthConroller.get,
   'account/logout': viewAuthConroller.delete,
   'account/create': viewAuthConroller.create,
-  // 'account/edit': viewAccountConroller.edit,
+  'account/edit': viewAccountConroller.edit,
   // 'account/deleted': viewAccountConroller.deleted,
-  // 'cart': viewCartConroller,
-  // 'order': viewOrderConroller,
+  'cart': viewCartConroller.get,
+  'order': viewOrderConroller.get,
+  'products': viewProductConroller.get,
   // 'checkout': viewCheckoutConroller,
   'public' : viewConroller.public,
   'not-found': viewConroller.notFound,

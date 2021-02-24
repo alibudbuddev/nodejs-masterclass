@@ -2,7 +2,7 @@ const NJSMC_LOGIN = {
   init: () => {
     const loginFormEl = document.querySelector('.js-login-form');
     if(loginFormEl) {
-      loginFormEl.addEventListener("submit", (e) => {
+      loginFormEl.addEventListener('submit', (e) => {
 
         // Stop it from submitting
         e.preventDefault();
@@ -11,11 +11,11 @@ const NJSMC_LOGIN = {
         const method = e.target.getAttribute('method').toUpperCase();
 
         // Hide the error message (if it's currently shown due to a previous error)
-        document.querySelector("#"+formId+" .formError").style.display = 'none';
+        document.querySelector('#'+formId+' .formError').style.display = 'none';
 
         // Hide the success message (if it's currently shown due to a previous error)
-        if(document.querySelector("#"+formId+" .formSuccess")){
-          document.querySelector("#"+formId+" .formSuccess").style.display = 'none';
+        if(document.querySelector('#'+formId+' .formSuccess')){
+          document.querySelector('#'+formId+' .formSuccess').style.display = 'none';
         }
 
         const payload = NJSMC_FORM.serialize(loginFormEl.elements);
@@ -39,14 +39,15 @@ const NJSMC_LOGIN = {
               var error = typeof(responsePayload.error) == 'string' ? responsePayload.error : 'An error has occured, please try again';
 
               // Set the formError field with the error text
-              document.querySelector("#"+formId+" .formError").innerHTML = error;
+              document.querySelector('#'+formId+' .formError').innerHTML = error;
 
               // Show (unhide) the form error field on the form
-              document.querySelector("#"+formId+" .formError").style.display = 'block';
+              document.querySelector('#'+formId+' .formError').style.display = 'block';
             }
           } else {
             // If successful, send to form response processor
-            app.formResponseProcessor(formId, payload, responsePayload);
+            app.setSessionToken(payload);
+            window.location = '/checks/all';
           }
 
         });

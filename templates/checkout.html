@@ -45,7 +45,7 @@
           checkoutBtnEl.addEventListener('click', (e) => {
             NJSMC_HTTP.request(undefined, '/api/checkout', 'POST', {}, {}, (statusCode, responsePayload) => {
               if(statusCode == 200) {
-                window.location = '/orders';
+                window.location = `/orders?id=${responsePayload.id}`;
               }
             });
           });

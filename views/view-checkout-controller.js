@@ -4,13 +4,13 @@
  *
  */
 
-const statusCode = require('./../lib/status-code');
-const helpers = require('./../lib/helpers');
+const statusCode = require('../lib/status-code');
+const helpers = require('../lib/helpers');
 
 // Cart view container
-const viewCartConroller = {};
+const viewCheckoutConroller = {};
 
-viewCartConroller.get = (data, callback) => {
+viewCheckoutConroller.get = (data, callback) => {
   // Reject any request that isn't a GET
   if(data.method == 'get'){
    // Prepare data for interpolation
@@ -20,7 +20,7 @@ viewCartConroller.get = (data, callback) => {
      'body.class' : 'sessionCreate'
    };
    // Read in a template as a string
-   helpers.getTemplate('cart', templateData, (err, str) => {
+   helpers.getTemplate('checkout', templateData, (err, str) => {
      if(!err && str){
        // Add the universal header and footer
        helpers.addUniversalTemplates(str, templateData, (err, str) => {
@@ -41,4 +41,4 @@ viewCartConroller.get = (data, callback) => {
 }
 
 // Export the controller
-module.exports = viewCartConroller;
+module.exports = viewCheckoutConroller;

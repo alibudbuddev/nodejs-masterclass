@@ -15,11 +15,11 @@
 <hr>
 
 <div class="text-center">
-  <button type="button" class="cta green">Checkout</button>
+  <button type="button" class="cta green" id="js-checkout-btn">Checkout</button>
 </div>
 <script>
   window.addEventListener('load', (e) => {
-    const CART = {
+    const CHECKOUT = {
       init: () => {
         NJSMC_HTTP.request(undefined, '/api/cart', 'GET', {}, {}, (statusCode, responsePayload) => {
           if(statusCode == 200 && typeof(responsePayload) == 'object') {
@@ -36,10 +36,23 @@
             document.getElementById('js-tbody').innerHTML = html;
           }
         });
-        
+        CHECKOUT.initEvents();
+      },
+
+      initEvents: () => {
+        const checkoutBtnEl = document.getElementById('js-checkout-btn');
+        if(checkoutBtnEl) {
+          checkoutBtnEl.addEventListener('click', (e) => {
+            NJSMC_HTTP.request(undefined, '/api/checkout', 'POST', {}, {}, (statusCode, responsePayload) => {
+              if(statusCode == 200) {
+                window.location = '/orders';
+              }
+            });
+          });
+        }
       }
     }
 
-    CART.init();
+    CHECKOUT.init();
   });
 </script>

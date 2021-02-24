@@ -47,8 +47,9 @@
       onAddToCartClick: (product) => {
         const payload = {product};
         NJSMC_HTTP.request(undefined, '/api/cart', 'PUT', payload, payload, (statusCode, responsePayload) => {
-          
-
+          if(statusCode == 200) {
+            app.cartTotalItemCountEl.innerHTML = responsePayload.length;
+          }
         });
       }
     }

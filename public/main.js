@@ -3,11 +3,18 @@ window.onload = () => {
   // Bind logout logout button
   // app.bindLogoutButton();
 
+  app.prepareControllers();
+
   // Get the token from localstorage
   NJSMC_TOKENS.getSessionToken();
 
   // Check if user is authenticated
-  NJSMC_AUTH.check();
+  NJSMC_AUTH.check((isAuthenticated) => {
+    if(isAuthenticated) {
+      app.getTotalCartItems();
+    }
+  });
+  
 
   // Renew token
   // app.tokenRenewalLoop();

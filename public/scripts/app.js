@@ -14,3 +14,24 @@ app.setLoggedInClass = (add) => {
     target.classList.remove('loggedIn');
   }
 };
+
+app.prepareControllers = () => {
+  const cartTotalItemCountEl = document.querySelector('.js-cart-total-items');
+  if(cartTotalItemCountEl) {
+    app['cartTotalItemCountEl'] = cartTotalItemCountEl;
+  }
+
+  const cartAlertHeaderEl = document.querySelector('.js-cart-alert-header');
+  if(cartAlertHeaderEl) {
+    app['cartAlertHeaderEl'] = cartAlertHeaderEl;
+  }
+};
+
+app.getTotalCartItems = () => {
+  NJSMC_HTTP.request(undefined, '/api/cart', 'GET', {}, {}, (statusCode, responsePayload) => {
+    if(statusCode == 200) {
+      app.cartTotalItemCountEl.innerHTML = responsePayload.length;
+      app.cartAlertHeaderEl.style.display = 'flex';
+    }
+  });
+};

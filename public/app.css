@@ -315,13 +315,13 @@ td a, td a:hover, td a:active{
 }
 
 .cart-alert-header {
+  display: none;
   background: #217844;
   width: 100%;
   bottom: 0;
   position: fixed;
   height: 55px;
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
 }

@@ -96,17 +96,17 @@ _container.post = (data, callback) => {
                   }
                 });
               } else {
-                callback(chargePayload.statusCode, chargePayload);
+                callback(chargePayload.statusCode, helpers.errObject(chargePayload.payload.error.message));
               }
             });
           }
         });
       } else {
-        callback(tokenPayload.statusCode, tokenPayload);
+        callback(tokenPayload.statusCode, helpers.errObject(tokenPayload.payload.error.message));
       }
     });
   } else {
-    callback(statusCode.PAYMENT_REQUIRED, {err: helpers.errObject('Card details invalid.'), payload});
+    callback(statusCode.PAYMENT_REQUIRED, helpers.errObject('Card details invalid.'));
   }
 }
 

@@ -12,11 +12,35 @@
   <tbody id="js-tbody"></tbody>
 </table>
 
-<hr>
+<hr />
 
-<div class="text-center">
-  <button type="button" class="cta green" id="js-checkout-btn">Checkout</button>
+<div class="formWrapper">
+  <form id="checkoutForm" action="/api/checkout" method="POST">
+    <div class="formError"></div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Card number</div>
+      <input type="text" name="number"/>
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Month Exp.</div>
+      <input type="text" name="exp_month"/>
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">Year Exp.</div>
+      <input type="text" name="exp_year"/>
+    </div>
+    <div class="inputWrapper">
+      <div class="inputLabel">CVC</div>
+      <input type="text" name="cvc"/>
+    </div>
+    <div class="inputWrapper ctaWrapper">
+      <button type="submit" class="cta green">Checkout</button>
+    </div>
+  </form>
 </div>
+
+<script type="text/javascript" charset="utf-8" src="/public/scripts/forms.js"></script>
+
 <script>
   window.addEventListener('load', (e) => {
     const CHECKOUT = {
@@ -40,11 +64,42 @@
       },
 
       initEvents: () => {
-        const checkoutBtnEl = document.getElementById('js-checkout-btn');
-        if(checkoutBtnEl) {
-          checkoutBtnEl.addEventListener('click', (e) => {
-            NJSMC_HTTP.request(undefined, '/api/checkout', 'POST', {}, {}, (statusCode, responsePayload) => {
-              if(statusCode == 200) {
+        const loginFormEl = document.querySelector('form');
+        if(loginFormEl) {
+          loginFormEl.addEventListener('submit', (e) => {
+
+            // Stop it from submitting
+            e.preventDefault();
+            const {formId, path, method} = NJSMC_FORM.getFormMeta(e);
+            NJSMC_FORM.toggleAlerts(formId);
+
+            // Call the API
+            const payload = NJSMC_FORM.serialize(loginFormEl.elements);
+            payload['exp_month'] = parseInt(payload.exp_month);
+            payload['exp_year'] = parseInt(payload.exp_year);
+            const card = {card: payload};
+
+            NJSMC_HTTP.request(undefined, path, method, card, card, (statusCode, responsePayload) => {
+              // Display an error on the form if needed
+              if(statusCode !== 200) {
+                if(statusCode == 403) {
+                  // log the user out
+                  app.logUserOut();
+
+                } else {
+
+                  // Try to get the error from the api, or set a default error message
+                  var error = typeof(responsePayload.error) == 'string' ? responsePayload.error : 'An error has occured, please try again';
+
+                  // Set the formError field with the error text
+                  document.querySelector('#'+formId+' .formError').innerHTML = error;
+
+                  // Show (unhide) the form error field on the form
+                  document.querySelector('#'+formId+' .formError').style.display = 'block';
+                }
+              } else {
+                // If successful, send to form response processor
+                NJSMC_TOKENS.setSessionToken(responsePayload);
                 window.location = `/orders?id=${responsePayload.id}`;
               }
             });

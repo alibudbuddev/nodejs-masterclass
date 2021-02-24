@@ -22,7 +22,7 @@ const routes = {
   'account/create': viewAuthConroller.create,
   'account/edit': viewAccountConroller.edit,
   // 'account/deleted': viewAccountConroller.deleted,
-  'order': viewOrderConroller.get,
+  'orders': viewOrderConroller.get,
   'products': viewProductConroller.get,
   'checkout': viewCheckoutConroller.get,
   'public' : viewConroller.public,

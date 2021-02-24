@@ -1,1 +1,36 @@
-<h1>order</h1>
+<h1>Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody id="js-tbody"></tbody>
+</table>
+<script>
+  window.addEventListener('load', (e) => {
+    const CHECKOUT = {
+      init: () => {
+        NJSMC_HTTP.request(undefined, '/api/orders', 'GET', {}, {}, (statusCode, responsePayload) => {
+          if(statusCode == 200 && typeof(responsePayload) == 'object') {
+            let html = '';
+            responsePayload.items.forEach(item => {
+              html += `
+                <tr>
+                  <td>1</td>
+                  <td class="text-center">1</td>
+                </tr>
+              `;
+            });
+            document.getElementById('js-tbody').innerHTML = html;
+          }
+        });
+      }
+    }
+
+    CHECKOUT.init();
+  });
+</script>

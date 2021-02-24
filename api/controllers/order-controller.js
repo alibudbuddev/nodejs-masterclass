@@ -56,6 +56,19 @@ _container.post = function(data, callback){
   });
 }
 
+_container.get = (data, callback) => {
+  // Check if token is valid
+  if(!data.tokenState.valid) {
+    callback(statusCode.UNAUTHORIZED);
+    return;
+  }
+
+  const orderModel = new OrderModel(data.queryStringObject.id);
+  orderModel.get((err, payload) => {
+    callback(err ? statusCode.SERVER_ERROR : statusCode.SUCCESS, payload);
+  });
+}
+
 var orderController = function(data, callback) {
   requestHandler.handler(data, _container, callback);
 }

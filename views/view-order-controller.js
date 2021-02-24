@@ -12,7 +12,7 @@ const viewOrderConroller = {};
 
 viewOrderConroller.get = (data, callback) => {
   // Reject any request that isn't a GET
-  if(data.method == 'get'){
+  if(data.method == 'get') {
    // Prepare data for interpolation
    var templateData = {
      'head.title' : 'Login to your account.',

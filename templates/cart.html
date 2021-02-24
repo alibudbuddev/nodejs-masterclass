@@ -1,1 +1,45 @@
-<h1>cart</h1>
+<h1>Checkout</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Qty</th>
+    </tr>
+  </thead>
+
+  <tbody id="js-tbody"></tbody>
+</table>
+
+<hr>
+
+<div class="text-center">
+  <button type="button" class="cta green">Checkout</button>
+</div>
+<script>
+  window.addEventListener('load', (e) => {
+    const CART = {
+      init: () => {
+        NJSMC_HTTP.request(undefined, '/api/cart', 'GET', {}, {}, (statusCode, responsePayload) => {
+          if(statusCode == 200 && typeof(responsePayload) == 'object') {
+            let html = '';
+            responsePayload.forEach(item => {
+              html += `
+                <tr>
+                  <td>${item.name}</td>
+                  <td class="text-center">${item.price}</td>
+                  <td class="text-center">1</td>
+                </tr>
+              `;
+            });
+            document.getElementById('js-tbody').innerHTML = html;
+          }
+        });
+        
+      }
+    }
+
+    CART.init();
+  });
+</script>

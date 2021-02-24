@@ -30,6 +30,7 @@ app.prepareControllers = () => {
 app.getTotalCartItems = () => {
   NJSMC_HTTP.request(undefined, '/api/cart', 'GET', {}, {}, (statusCode, responsePayload) => {
     if(statusCode == 200) {
+      app.cart = responsePayload;
       app.cartTotalItemCountEl.innerHTML = responsePayload.length;
       app.cartAlertHeaderEl.style.display = 'flex';
     }

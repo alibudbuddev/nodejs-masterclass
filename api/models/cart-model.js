@@ -5,7 +5,10 @@ class CartModel extends DataORM {
 
   constructor(primaryKey) {
     super('cart', primaryKey);
-    this.data = undefined;
+    this.data = {
+      items: [],
+      total: 0
+    };
   }
 
   /*
@@ -15,7 +18,7 @@ class CartModel extends DataORM {
   get(callback) {
     this.find((err, data) => {
       if(!err && data) {
-        this.data = data;
+        this.updateData(data);
         callback(false, data);
       } else {
         callback(true, helpers.errObject('Could not find the specified token for '+this.primaryKey));
@@ -84,6 +87,29 @@ class CartModel extends DataORM {
         callback(true, helpers.errObject('Could not delete the specified token'));
       }
     });
+  }
+
+  /*
+   * Updates the data property
+   * @param {object} data - JSON data
+   */
+  updateData(data) {
+    this.data.items = data;
+    this.data.total = this.generateTotal();
+  }
+
+  /*
+   * Generate total order based on items
+   */
+  generateTotal() {
+    let total = 0;
+    const items = this.data.items;
+    const length = items.length;
+    for (let i = 0; i < length; i++) {
+      total += items[i]['price'];
+    }
+
+    return total;
   }
 }
 

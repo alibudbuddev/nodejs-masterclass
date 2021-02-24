@@ -5,7 +5,10 @@ class OrderModel extends DataORM {
 
   constructor(primaryKey) {
     super('orders', primaryKey);
-    this.data = undefined;
+    this.data = {
+      items: [],
+      total: 0
+    };
   }
 
   /*

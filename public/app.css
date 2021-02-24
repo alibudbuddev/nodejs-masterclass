@@ -331,3 +331,7 @@ td a, td a:hover, td a:active{
   font-size: 20px;
   color: white;
 }
+
+.text-center {
+  text-align: center;
+}

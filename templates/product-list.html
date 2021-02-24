@@ -45,7 +45,11 @@
       },
 
       onAddToCartClick: (product) => {
-        console.log(product);
+        const payload = {product};
+        NJSMC_HTTP.request(undefined, '/api/cart', 'PUT', payload, payload, (statusCode, responsePayload) => {
+          
+
+        });
       }
     }
 

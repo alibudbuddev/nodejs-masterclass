@@ -35,5 +35,22 @@ const NJSMC_FORM = {
     }
 
     return payload;
+  },
+
+  toggleAlerts: (formId) => {
+    // Hide the error message (if it's currently shown due to a previous error)
+    document.querySelector('#'+formId+' .formError').style.display = 'none';
+
+    // Hide the success message (if it's currently shown due to a previous error)
+    if(document.querySelector('#'+formId+' .formSuccess')){
+      document.querySelector('#'+formId+' .formSuccess').style.display = 'none';
+    }
+  },
+
+  getFormMeta: (e) => {
+    const formId = e.target.getAttribute('id');
+    const path = e.target.getAttribute('action');
+    const method = e.target.getAttribute('method').toUpperCase();
+    return {formId, path, method};
   }
 };

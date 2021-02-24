@@ -6,25 +6,15 @@ const NJSMC_LOGIN = {
 
         // Stop it from submitting
         e.preventDefault();
-        const formId = e.target.getAttribute('id');
-        const path = e.target.getAttribute('action');
-        const method = e.target.getAttribute('method').toUpperCase();
+        const {formId, path, method} = NJSMC_FORM.getFormMeta(e);
+        NJSMC_FORM.toggleAlerts(formId);
 
-        // Hide the error message (if it's currently shown due to a previous error)
-        document.querySelector('#'+formId+' .formError').style.display = 'none';
-
-        // Hide the success message (if it's currently shown due to a previous error)
-        if(document.querySelector('#'+formId+' .formSuccess')){
-          document.querySelector('#'+formId+' .formSuccess').style.display = 'none';
-        }
-        
         // Call the API
         const payload = NJSMC_FORM.serialize(loginFormEl.elements);
         NJSMC_HTTP.request(undefined, path, method, payload, payload, (statusCode, responsePayload) => {
           // Display an error on the form if needed
-          if(statusCode !== 200){
-
-            if(statusCode == 403){
+          if(statusCode !== 200) {
+            if(statusCode == 403) {
               // log the user out
               app.logUserOut();
 

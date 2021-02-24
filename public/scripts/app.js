@@ -25,6 +25,8 @@ app.prepareControllers = () => {
   if(cartAlertHeaderEl) {
     app['cartAlertHeaderEl'] = cartAlertHeaderEl;
   }
+
+  app.bindLogoutButton();
 };
 
 app.getTotalCartItems = () => {
@@ -34,5 +36,17 @@ app.getTotalCartItems = () => {
       app.cartTotalItemCountEl.innerHTML = responsePayload.length;
       app.cartAlertHeaderEl.style.display = 'flex';
     }
+  });
+};
+
+app.bindLogoutButton = function(){
+  document.getElementById("logoutButton").addEventListener("click", function(e){
+
+    // Stop it from redirecting anywhere
+    e.preventDefault();
+
+    // Log the user out
+    NJSMC_AUTH.logUserOut();
+
   });
 };

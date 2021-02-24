@@ -1,8 +1,5 @@
 // Call the init processes after the window loads
 window.onload = () => {
-  // Bind logout logout button
-  // app.bindLogoutButton();
-
   app.prepareControllers();
 
   // Get the token from localstorage
@@ -14,11 +11,4 @@ window.onload = () => {
       app.getTotalCartItems();
     }
   });
-  
-
-  // Renew token
-  // app.tokenRenewalLoop();
-
-  // Load data on page
-  // app.loadDataOnPage();
 };

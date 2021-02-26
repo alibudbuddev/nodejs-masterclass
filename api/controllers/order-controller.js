@@ -34,7 +34,8 @@ _container.post = function(data, callback){
         'email': tokenState.token.email,
         'items' : payload,
         'isPaid': false,
-        'paymentId': null
+        'paymentId': null,
+        'createdAt': Date.now()
       };
 
       orderModel.save(orderObject, (err, payload) => {

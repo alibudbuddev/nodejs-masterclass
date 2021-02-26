@@ -25,6 +25,7 @@ _container.post = function(data, callback){
     const userModel = new UserModel(payload.email);
     userModel.notExist(function(notExist) {
       if(notExist) {
+        payload['createdAt'] = Date.now();
         userModel.save(payload, function(statusCode, payload = {}) {
           callback(statusCode, payload);
         });
